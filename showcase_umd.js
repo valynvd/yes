@@ -12,8 +12,6 @@
 
     const img = document.createElement('img');
     img.src = config.image;
-    img.style.width = config.width || '300px';
-    img.style.height = config.height || '250px';
     img.style.objectFit = 'cover';
     img.style.display = 'block';
     img.style.cursor = 'pointer';

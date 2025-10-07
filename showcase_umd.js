@@ -15,7 +15,6 @@
     img.style.width = config.width || '300px';
     img.style.height = config.height || '250px';
     img.style.objectFit = 'cover';
-    img.style.borderRadius = '10px';
     img.style.display = 'block';
     img.style.cursor = 'pointer';
     img.style.boxShadow = '0 2px 8px rgba(0,0,0,0.15)';

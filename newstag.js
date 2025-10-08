@@ -5,7 +5,7 @@
   else root.Newstag = factory();
 })(this, function () {
 
-  function initNewstag() {
+  function initNewstag(textTag, landingPage, position) {
     var site = parent.kly ? parent.kly.site : parent.kmklabs.site;
     var platform = parent.kly ? parent.kly.platform : parent.kmklabs.platform;
     var pageType = parent.kly ? parent.kly.pageType : parent.kmklabs.pageType;

@@ -6,10 +6,6 @@
 })(this, function () {
 
   function initNewstag() {
-    var textTag = "[%NameTag%]";
-    var landingPage = "%%CLICK_URL_ESC%%[%LandingPage%]";
-    var position = "[%dfp_position%]" - 1;
-
     var site = parent.kly ? parent.kly.site : parent.kmklabs.site;
     var platform = parent.kly ? parent.kly.platform : parent.kmklabs.platform;
     var pageType = parent.kly ? parent.kly.pageType : parent.kmklabs.pageType;

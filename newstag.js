@@ -75,7 +75,7 @@
 
       const ref = parentList.children[position];
       if (ref) ref.insertAdjacentElement("beforebegin", tag);
-      else parentList.appendChild(tag);
+      else parentList.insertAdjacentElement("beforeend", tag);
     } else {
       var parentList = doc.querySelector(".header25-trending__list");
       var tag = doc.querySelector(".header25-trending__item");
@@ -88,7 +88,7 @@
 
       const ref = parentList.children[position];
       if (ref) ref.insertAdjacentElement("beforebegin", tag);
-      else parentList.appendChild(tag);
+      else parentList.insertAdjacentElement("beforeend", tag);
     }
   }
   return { initNewstag };

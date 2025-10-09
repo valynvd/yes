@@ -14,10 +14,10 @@
 
     switch (site.toLowerCase()) {
       case "liputan6":
-        newstagLiputan6();
+        newstagLiputan6(textTag, landingPage, position);
         break;
       case "kapanlagi":
-        newstagKapanlagi();
+        newstagKapanlagi(textTag, landingPage, position);
         break;
     }
   }
@@ -57,7 +57,7 @@
     }
   }
 
-  function newstagKapanlagi() {
+  function newstagKapanlagi(textTag, landingPage, position) {
     if (platform == "Desktop") {
       var tag = parent.document.querySelector(".header25-trending__item");
       var parentList = parent.document.querySelector(".header25-trending__list");

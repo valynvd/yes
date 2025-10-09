@@ -6,14 +6,10 @@
 })(this, function () {
 
   function initNewstag(textTag, landingPage, position) {
-    var site, platform, pageType;
-    try {
-    site = parent.kly ? parent.kly.site : parent.kmklabs.site;
-    platform = parent.kly ? parent.kly.platform : parent.kmklabs.platform;
-    pageType = parent.kly ? parent.kly.pageType : parent.kmklabs.pageType;
-    } catch (e) {
-      return;
-    }
+    var site = parent.kly ? parent.kly.site : parent.kmklabs.site;
+    var platform = parent.kly ? parent.kly.platform : parent.kmklabs.platform;
+    var pageType = parent.kly ? parent.kly.pageType : parent.kmklabs.pageType;
+
     console.log(site.toLowerCase(), platform, pageType);
 
     switch (site.toLowerCase()) {
@@ -62,10 +58,9 @@
   }
 
   function newstagKapanlagi() {
-    const doc = parent.document;
     if (platform == "Desktop") {
-      var tag = doc.querySelector(".header25-trending__item");
-      var parentList = doc.querySelector(".header25-trending__list");
+      var tag = parent.document.querySelector(".header25-trending__item");
+      var parentList = parent.document.querySelector(".header25-trending__list");
 
       tag = tag.cloneNode(true);
       tag.querySelector(".header25-trending__item__title").textContent = textTag;
@@ -73,12 +68,12 @@
       tag.setAttribute("target", "_blank");
       tag.classList.add("tag-ads");
 
-      const ref = parentList.children[position];
-      if (ref) ref.insertAdjacentElement("beforebegin", tag);
-      else parentList.insertAdjacentElement("beforeend", tag);
+      parentList.insertBefore(tag, parentList.childNodes[position]);
     } else {
-      var parentList = doc.querySelector(".header25-trending__list");
-      var tag = doc.querySelector(".header25-trending__item");
+      var parentList = parent.document.querySelector(
+        ".header25-trending__list"
+      );
+      var tag = parent.document.querySelector(".header25-trending__item");
 
       tag = tag.cloneNode(true);
       tag.classList.add("tag-ads");
@@ -86,9 +81,7 @@
       tag.setAttribute("href", landingPage);
       tag.setAttribute("target", "_blank");
 
-      const ref = parentList.children[position];
-      if (ref) ref.insertAdjacentElement("beforebegin", tag);
-      else parentList.insertAdjacentElement("beforeend", tag);
+      parentList.insertBefore(tag, parentList.childNodes[position]);
     }
   }
   return { initNewstag };

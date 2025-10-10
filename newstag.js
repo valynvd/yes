@@ -9,8 +9,8 @@
 
   function initNewstag(target, textTag, landingPage, position, klyObj) {
     site = klyObj.site.toLowerCase();
-    platform = klyObj.site.toLowerCase();
-    pageType = klyObj.site.toLowerCase();
+    platform = klyObj.platform.toLowerCase();
+    pageType = klyObj.pageType.toLowerCase();
 
     console.log(target, site, platform);
 
@@ -21,9 +21,10 @@
     }
   }
 
-  function newstagKapanlagi(textTag, landingPage, position) {
+  function newstagKapanlagi(target, textTag, landingPage, position) {
     if (platform == "desktop") {
-      var tag = target.childNodes[position];
+      var tag = target.childNodes[position]; //.querySelector(".header25-trending__item");
+      // var parentList = document.querySelector(".header25-trending__list");
 
       tag = tag.cloneNode(true);
       tag.querySelector(".header25-trending__item__title").textContent = textTag;
@@ -32,8 +33,10 @@
       tag.classList.add("tag-ads");
 
       return tag;
+      // parentList.insertBefore(tag, parentList.children[position]);
     } else {
-      var tag = document.childNodes[position];
+      // var parentList = document.querySelector(".header25-trending__list");
+      var tag = target.childNodes[position]; //.querySelector(".header25-trending__item");
 
       tag = tag.cloneNode(true);
       tag.classList.add("tag-ads");
@@ -42,6 +45,7 @@
       tag.setAttribute("target", "_blank");
 
       return tag;
+      // parentList.insertBefore(tag, parentList.children[position]);
     }
   }
   return { initNewstag };

@@ -6,62 +6,23 @@
 })(this, function () {
 
   function initNewstag(textTag, landingPage, position) {
-    var p = typeof parent !== "undefined" ? parent : window;
-    var site = (p.kly && p.kly.site) || (p.kmklabs && p.kmklabs.site) || "default";
-    var platform = (p.kly && p.kly.platform) || (p.kmklabs && p.kmklabs.platform) || "default";
-    var pageType = (p.kly && p.kly.pageType) || (p.kmklabs && p.kmklabs.pageType) || "default";
+    var site = window.NewstagEnv.site;
+    var platform = window.NewstagEnv.platform;
+    var pageType = window.NewstagEnv.pageType;
 
     console.log(site.toLowerCase(), platform, pageType);
 
     switch (site.toLowerCase()) {
-      case "liputan6":
-        newstagLiputan6(textTag, landingPage, position);
-        break;
       case "kapanlagi":
         newstagKapanlagi(textTag, landingPage, position);
         break;
     }
   }
 
-  function newstagLiputan6() {
-    var doc = parent.document;
-    if (platform === "Desktop") {
-      var tag = doc.querySelector(
-        "#phenomenon-tags .tag-snippet, .trending--list .trending--list__item"
-      );
-      var list = doc.querySelector(
-        "#phenomenon-tags .asides--trending-tags, .trending--list"
-      );
-      tag = tag.cloneNode(true);
-      tag.querySelector(
-        ".tag-snippet__text, .trending__item__title"
-      ).textContent = textTag;
-      tag.querySelector(".tag-snippet__link, .trending__item").href =
-        landingPage;
-      tag.querySelector(".tag-snippet__link, .trending__item").target =
-        "_blank";
-      tag.classList.add("tag-ads");
-      list.insertBefore(tag, list.childNodes[position]);
-    } else {
-      var list = doc.querySelector(".trending-tags__list, .trending--list");
-      var tag = doc.querySelector(
-        ".trending-tags__list .trending-tags__item, .trending--list .trending--list__item"
-      );
-      tag = tag.cloneNode(true);
-      tag.classList.add("tag-ads");
-      tag.querySelector(
-        ".trending-tags__item-link, .trending__item__title"
-      ).textContent = textTag;
-      tag.querySelector(".trending-tags__item-link, .trending__item").href = landingPage;
-      tag.querySelector(".trending-tags__item-link, .trending__item").target = "_blank";
-      list.insertBefore(tag, list.childNodes[position]);
-    }
-  }
-
   function newstagKapanlagi(textTag, landingPage, position) {
     if (platform == "Desktop") {
-      var tag = parent.document.querySelector(".header25-trending__item");
-      var parentList = parent.document.querySelector(".header25-trending__list");
+      var tag = document.querySelector(".header25-trending__item");
+      var parentList = document.querySelector(".header25-trending__list");
 
       tag = tag.cloneNode(true);
       tag.querySelector(".header25-trending__item__title").textContent = textTag;
@@ -71,10 +32,8 @@
 
       parentList.insertBefore(tag, parentList.childNodes[position]);
     } else {
-      var parentList = parent.document.querySelector(
-        ".header25-trending__list"
-      );
-      var tag = parent.document.querySelector(".header25-trending__item");
+      var parentList = document.querySelector(".header25-trending__list");
+      var tag = document.querySelector(".header25-trending__item");
 
       tag = tag.cloneNode(true);
       tag.classList.add("tag-ads");

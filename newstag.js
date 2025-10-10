@@ -30,7 +30,7 @@
       tag.setAttribute("target", "_blank");
       tag.classList.add("tag-ads");
 
-      parentList.insertBefore(tag, parentList.childNodes[position]);
+      parentList.insertBefore(tag, parentList.children[position]);
     } else {
       var parentList = document.querySelector(".header25-trending__list");
       var tag = document.querySelector(".header25-trending__item");
@@ -41,7 +41,7 @@
       tag.setAttribute("href", landingPage);
       tag.setAttribute("target", "_blank");
 
-      parentList.insertBefore(tag, parentList.childNodes[position]);
+      parentList.insertBefore(tag, parentList.children[position]);
     }
   }
   return { initNewstag };

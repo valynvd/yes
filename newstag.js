@@ -23,8 +23,7 @@
 
   function newstagKapanlagi(target, textTag, landingPage, position) {
     if (platform == "desktop") {
-      var tag = target.childNodes[position]; //.querySelector(".header25-trending__item");
-      // var parentList = document.querySelector(".header25-trending__list");
+      var tag = target.childNodes[position]; 
 
       tag = tag.cloneNode(true);
       tag.querySelector(".header25-trending__item__title").textContent = textTag;
@@ -33,10 +32,8 @@
       tag.classList.add("tag-ads");
 
       return tag;
-      // parentList.insertBefore(tag, parentList.children[position]);
     } else {
-      // var parentList = document.querySelector(".header25-trending__list");
-      var tag = target.childNodes[position]; //.querySelector(".header25-trending__item");
+      var tag = target.childNodes[position]; 
 
       tag = tag.cloneNode(true);
       tag.classList.add("tag-ads");
@@ -45,7 +42,6 @@
       tag.setAttribute("target", "_blank");
 
       return tag;
-      // parentList.insertBefore(tag, parentList.children[position]);
     }
   }
   return { initNewstag };

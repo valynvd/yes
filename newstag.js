@@ -6,9 +6,10 @@
 })(this, function () {
 
   function initNewstag(textTag, landingPage, position) {
-    var site = parent.kly ? parent.kly.site : parent.kmklabs.site;
-    var platform = parent.kly ? parent.kly.platform : parent.kmklabs.platform;
-    var pageType = parent.kly ? parent.kly.pageType : parent.kmklabs.pageType;
+    var p = typeof parent !== "undefined" ? parent : window;
+    var site = (p.kly && p.kly.site) || (p.kmklabs && p.kmklabs.site) || "default";
+    var platform = (p.kly && p.kly.platform) || (p.kmklabs && p.kmklabs.platform) || "default";
+    var pageType = (p.kly && p.kly.pageType) || (p.kmklabs && p.kmklabs.pageType) || "default";
 
     console.log(site.toLowerCase(), platform, pageType);
 

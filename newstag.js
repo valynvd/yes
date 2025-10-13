@@ -44,41 +44,39 @@
         }
     }
 
-    function injectCreative(cfg) {
-        var textTag = cfg.textTag || "Newstag";
-        var landingPage = cfg.landingPage || "#";
-        var position = Number.isInteger(cfg.position) ? cfg.position : 0;
-        var targetSelector = cfg.targetSelector || ".header25-trending__list";
+    function injectCreative(config) {
+        var textTag = config.textTag || "Newstag";
+        var landingPage = config.landingPage || "#";
+        var position = Number.isInteger(config.position) ? config.position : 0;
+        var targetSelector = config.targetSelector || ".header25-trending__list";
         var count = 0;
 
-        var CHECK_TAG_ELEMENT = setInterval(function () {
+        const CHECK_TAG_ELEMENT = setInterval(function () {
             try {
-                var P = parent.document;
-                if (!P) return;
+                const doc = parent.document;
+                if (!doc) return;
 
-                var TARGET = P.querySelector(targetSelector);
-                if (!TARGET) {
-                    count++;
-                    if (count > 1000) clearInterval(CHECK_TAG_ELEMENT);
+                const target = doc.querySelector(targetSelector);
+                if (!target) {
+                    if (++count > 1000) clearInterval(CHECK_TAG_ELEMENT)
                     return;
                 }
 
-                var tagItems = TARGET.querySelectorAll("a.header25-trending__item");
-                var Pos = tagItems[position];
-                var dupcheck = TARGET.querySelectorAll(".tag-ads");
-                if (Pos && !dupcheck.length) {
-                    var GAM_TAG = initNewstag(TARGET, textTag, landingPage, position, parent.kly);
-                    Pos.insertAdjacentElement("beforebegin", GAM_TAG);
+                if (target.querySelector(".tag-ads")) {
                     clearInterval(CHECK_TAG_ELEMENT);
-                    return;
-                } else if (Pos && dupcheck.length) {
-                    clearInterval(CHECK_TAG_ELEMENT);
-                    return;
+                    return
                 }
-                count++;
-                if (count > 1000) {
-                    clearInterval(CHECK_TAG_ELEMENT)
+
+                var tagItem = target.querySelectorAll("a.header25-trending__item")[position];
+                if (tagItem) {
+                    var GAM_TAG = initNewstag(target, textTag, landingPage, position, parent.kly || {});
+                    if (GAM_TAG) {
+                        tagItem.insertAdjacentElement("beforebegin", GAM_TAG);
+                        clearInterval(CHECK_TAG_ELEMENT);
+                    }
                 }
+                if (++count > 1000) clearInterval(CHECK_TAG_ELEMENT);
+
             } catch (e) {
                 console.warn("Error", e)
                 clearInterval(CHECK_TAG_ELEMENT);

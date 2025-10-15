@@ -33,13 +33,21 @@
       var position = Number.isInteger(config.position) ? config.position : 0;
       var targetSelector = config.targetSelector || ".header25-trending__list";
       var count = 0;
-
+      
       const interval = setInterval(function () {
         var target = doc.querySelector(targetSelector);
         if (!target) {
-          if (++count > 1000) clearInterval(interval);
+          if (++count > 100) clearInterval(interval);
           return;
         }
+
+        if (target.querySelector(".tag-ads")) {
+          clearInterval(interval);
+          return;
+        }
+
+        var tagItem = target.querySelectorAll("a.header25-trending__item")[position];
+        if (!tagItem) return;
 
         var tag = target.childNodes[position];
         tag = tag.cloneNode(true);
@@ -48,11 +56,9 @@
         tag.setAttribute("target", "_blank");
         tag.querySelector(".header25-trending__item__title").textContent = textTag;
 
-        var tagItem = target.querySelectorAll("a.header25-trending__item")[position];
-        if (tagItem) {
-          tagItem.insertAdjacentElement("beforebegin", tag);
-          clearInterval(interval);
-        }
+        tagItem.insertAdjacentElement("beforebegin", tag);
+        clearInterval(interval);
+        
       },100)
     } catch (e) {
       console.warn("[Newstag] Error:", e)

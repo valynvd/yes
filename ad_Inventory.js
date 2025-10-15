@@ -78,21 +78,29 @@
 
       var style = doc.createElement("style");
       style.innerHTML = `
-        .skinad-side{position:fixed;top:0;height:100vh;display:flex;align-items:center;z-index:9999;}
-        .skinad-side img{max-width:${imgWidth}px;}
+        .skinad-side {
+        position: fixed;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 9999;
+      }
+      .skinad-side img {
+        max-width: ${imgWidth}px;
+        display: block;
+      }
       `; 
       doc.head.appendChild(style);
 
+      var pageWidth = doc.documentElement.clientWidth;
       var contentWidth = doc.querySelector(".container")?.clientWidth || 1000;
-      var half = contentWidth / 2;
+      var sideOffset = (pageWidth - contentWidth) / 2;
 
       if (leftImg) {
         var left = doc.createElement("a");
         left.href = clickUrl;
         left.target = "_blank";
         left.className = "skinad-side";
-        left.style.left = "50%";
-        left.style.marginLeft = "-" + (half + width) + "px";
+        left.style.left = sideOffset - imgWidth + "px";
         left.innerHTML = `<img src="${leftImg}">`;
         doc.body.appendChild(left)
       }
@@ -101,8 +109,7 @@
         right.href = clickUrl;
         right.target = "_blank";
         right.className = "skinad-side";
-        right.style.left = "50%";
-        right.style.marginLeft = "-" + (half + width) + "px";
+        right.style.right = sideOffset - imgWidth + "px";
         right.innerHTML = `<img src="${rightImg}">`;
         doc.body.appendChild(right);
       }

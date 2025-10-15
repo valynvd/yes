@@ -65,7 +65,7 @@
 
       var leftImg = config.leftImage || "";
       var rightImg = config.rightImage || "";
-      var landingPage = config.landingPage || "#";
+      var clickUrl = config.clickUrl || "#";
       var imgWidth = config.imageWidth || 300;
 
       if (!leftImg && !rightImg) return;
@@ -74,7 +74,7 @@
 
       if (leftImg) {
         var left = doc.createElement("a");
-        left.href = landingPage;
+        left.href = clickUrl;
         left.target = "_blank";
         left.style = `position:fixed;left:50%;top:0;margin-left:-${half + imgWidth}px;
           height:100vh;display:flex;align-items:center;z-index:999;`;
@@ -83,7 +83,7 @@
       }
       if (rightImg) {
         var right = doc.createElement("a");
-        right.href = landingPage;
+        right.href = clickUrl;
         right.target = "_blank";
         right.style = `
           position:fixed;left:50%;top:0;margin-left:${half}px;

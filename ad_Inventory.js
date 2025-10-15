@@ -5,8 +5,23 @@
   else root.adInventory = factory();
 })(this, function () {
 
-  var doc = parent.document || document;
-  var kly = parent.kly || parent.kmklabs || {};
+  var doc;
+  try {
+    if (parent && parent.document) {
+      doc = parent.document;
+    } else {
+      doc = document;
+    }
+  } catch (e) {
+    doc = document
+  }
+  var kly = {};
+  try {
+    kly = parent.kly || parent.kmklabs || {};
+  } catch (e) {
+    kly = {};
+  }
+
   var site = (kly.site || "").toLowerCase();
   var platform = (kly.platform || "").toLowerCase();
 

@@ -33,7 +33,7 @@
       var position = Number.isInteger(config.position) ? config.position : 0;
       var targetSelector = config.targetSelector || ".header25-trending__list";
       var count = 0;
-      
+
       const interval = setInterval(function () {
         var target = doc.querySelector(targetSelector);
         if (!target) {
@@ -71,31 +71,39 @@
 
       var leftImg = config.leftImage || "";
       var rightImg = config.rightImage || "";
-      var clickUrl = config.clickUrl || "#";
+      var clickUrl = config.clickUrl || config.landingPage || "#";
       var imgWidth = config.imageWidth || 300;
 
       if (!leftImg && !rightImg) return;
-      var contentWidth = doc.querySelector(".container")?.clientWidth || 996;
+
+      var style = doc.createElement("style");
+      style.innerHTML = `
+        .skinad-side{position:fixed;top:0;height:100vh;display:flex;align-items:center;z-index:9999;}
+        .skinad-side img{max-width:${imgWidth}px;}
+      `; 
+      doc.head.appendChild(style);
+
+      var contentWidth = doc.querySelector(".container")?.clientWidth || 1000;
       var half = contentWidth / 2;
 
       if (leftImg) {
         var left = doc.createElement("a");
         left.href = clickUrl;
         left.target = "_blank";
-        left.style = `position:fixed;left:50%;top:0;margin-left:-${half + imgWidth}px;
-          height:100vh;display:flex;align-items:center;z-index:999;`;
-          left.innerHTML = `<img src="${leftImg}" style="max-width:${imgWidth}px">`;
-          doc.body.appendChild(left)
+        left.className = "skinad-side";
+        left.style.left = "50%";
+        left.style.marginLeft = "-" + (half + width) + "px";
+        left.innerHTML = `<img src="${leftImg}">`;
+        doc.body.appendChild(left)
       }
       if (rightImg) {
         var right = doc.createElement("a");
         right.href = clickUrl;
         right.target = "_blank";
-        right.style = `
-          position:fixed;left:50%;top:0;margin-left:${half}px;
-          height:100vh;display:flex;align-items:center;z-index:999;
-        `;
-        right.innerHTML = `<img src="${rightImg}" style="max-width:${imgWidth}px">`;
+        right.className = "skinad-side";
+        right.style.left = "50%";
+        right.style.marginLeft = "-" + (half + width) + "px";
+        right.innerHTML = `<img src="${rightImg}">`;
         doc.body.appendChild(right);
       }
     } catch (e) {

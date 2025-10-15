@@ -2,7 +2,7 @@
   if (typeof define == "function" && define.amd) define([], factory);
   else if (typeof module === "object" && module.exports)
       module.exports = factory();
-  else root.Newstag = factory();
+  else root.adInventory = factory();
 })(this, function () {
 
   var doc = parent.document || document;
@@ -58,5 +58,44 @@
       console.warn("[Newstag] Error:", e)
     }
   }
+
+  function SkinAd(config) {
+    try {
+      if (platform !== "" && platform !== "desktop") return ;
+
+      var leftImg = config.leftImage || "";
+      var rightImg = config.rightImage || "";
+      var landingPage = config.landingPage || "#";
+      var imgWidth = config.imageWidth || 300;
+
+      if (!leftImg && !rightImg) return;
+      var contentWidth = doc.querySelector(".container")?.clientWidth || 996;
+      var half = contentWidth / 2;
+
+      if (leftImg) {
+        var left = doc.createElement("a");
+        left.href = landingPage;
+        left.target = "_blank";
+        left.style = `position:fixed;left:50%;top:0;margin-left:-${half + imgWidth}px;
+          height:100vh;display:flex;align-items:center;z-index:999;`;
+          left.innerHTML = `<img src="${leftImg}" style="max-width:${imgWidth}px">`;
+          doc.body.appendChild(left)
+      }
+      if (rightImg) {
+        var right = doc.createElement("a");
+        right.href = landingPage;
+        right.target = "_blank";
+        right.style = `
+          position:fixed;left:50%;top:0;margin-left:${half}px;
+          height:100vh;display:flex;align-items:center;z-index:999;
+        `;
+        right.innerHTML = `<img src="${rightImg}" style="max-width:${imgWidth}px">`;
+        doc.body.appendChild(right);
+      }
+    } catch (e) {
+      console.warn("[SkinAd ERROR]:", e);
+    }
+  }
+
   return { init };
 });

@@ -1,7 +1,7 @@
 (function (root, factory) {
   if (typeof define == "function" && define.amd) define([], factory);
   else if (typeof module === "object" && module.exports)
-      module.exports = factory();
+    module.exports = factory();
   else root.adInventory = factory();
 })(this, function () {
 
@@ -9,7 +9,7 @@
   var kly = parent.kly || parent.kmklabs || {};
   var site = (kly.site || "").toLowerCase();
   var platform = (kly.platform || "").toLowerCase();
- 
+
   function init(format, config) {
     config = config || {};
     var format = (format || "").toLowerCase();
@@ -58,8 +58,8 @@
 
         tagItem.insertAdjacentElement("beforebegin", tag);
         clearInterval(interval);
-        
-      },100)
+
+      }, 100)
     } catch (e) {
       console.warn("[Newstag] Error:", e)
     }
@@ -67,7 +67,7 @@
 
   function SkinAd(config) {
     try {
-      if (platform !== "" && platform !== "desktop") return ;
+      if (platform !== "" && platform !== "desktop") return;
 
       var leftImg = config.leftImage || "";
       var rightImg = config.rightImage || "";
@@ -92,13 +92,15 @@
         height: 100%;
         object-fit: cover;
       }
-      `; 
+      `;
       doc.head.appendChild(style);
 
-      var content = doc.querySelector(".container, .main-container, #content, .wrapper, .content, .site-content");
-      var contentWidth = content ? contentElement.clientWidth : 1100;
+      var layoutSelector = ".container, .main-container, #content, .wrapper, .content, .site-content";
+      var content = doc.querySelector(layoutSelector);
+      var contentWidth = content ? content.clientWidth : 1100;
       var pageWidth = parent.innerWidth || window.innerWidth;
       var sideOffset = (pageWidth - contentWidth) / 2;
+
 
       if (leftImg) {
         var left = doc.createElement("a");
@@ -119,6 +121,15 @@
         right.innerHTML = `<img src="${rightImg}">`;
         doc.body.appendChild(right);
       }
+
+      window.addEventListener("resize", function () {
+        var skins = doc.querySelectorAll(".skinad-side");
+        if (window.innerWidth < 1200) {
+          skins.forEach(el => el.style.display = "none");
+        } else {
+          skins.forEach(el => el.style.display = "flex");
+        }
+      });
     } catch (e) {
       console.warn("[SkinAd ERROR]:", e);
     }

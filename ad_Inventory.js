@@ -96,7 +96,7 @@
       doc.head.appendChild(style);
 
       var pageWidth = doc.documentElement.clientWidth;
-      var contentWidth = doc.querySelector(".container, .main-container, #content, .wrapper")?.clientWidth || 1000;
+      var contentWidth = doc.querySelector(".container, .main-container, #content, .wrapper")?.clientWidth || 1100;
       var sideOffset = (pageWidth - contentWidth) / 2;
 
       if (leftImg) {

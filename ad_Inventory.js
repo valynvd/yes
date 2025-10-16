@@ -67,10 +67,7 @@
 
   function SkinAd(config) {
     try {
-
-      var screenWidth = window.innerWidth;
       if (platform !== "" && platform !== "desktop") return ;
-      if (screenWidth < 1366) return;
 
       var leftImg = config.leftImage || "";
       var rightImg = config.rightImage || "";
@@ -95,14 +92,11 @@
         height: 100%;
         object-fit: cover;
       }
-      @media (max-width: 1365px) {
-        .skinad-side { display: none !important; }
-      }
       `; 
       doc.head.appendChild(style);
 
       var pageWidth = doc.documentElement.clientWidth;
-      var contentWidth = doc.querySelector(".container, #content-wrap, .main-wrapper")?.clientWidth || 1000;
+      var contentWidth = doc.querySelector(".container")?.clientWidth || 1000;
       var sideOffset = (pageWidth - contentWidth) / 2;
 
       if (leftImg) {

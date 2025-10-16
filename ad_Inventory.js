@@ -69,10 +69,6 @@
     try {
       if (platform !== "" && platform !== "desktop") return ;
 
-       var minWidth = config.minWidth || 1200;
-      var currentWidth = window.innerWidth || doc.documentElement.clientWidth;
-      if (currentWidth < minWidth) return;
-
       var leftImg = config.leftImage || "";
       var rightImg = config.rightImage || "";
       var clickUrl = config.clickUrl || config.landingPage || "#";

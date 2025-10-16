@@ -95,8 +95,9 @@
       `; 
       doc.head.appendChild(style);
 
-      var pageWidth = doc.documentElement.clientWidth;
-      var contentWidth = doc.querySelector(".container, .main-container, #content, .wrapper")?.clientWidth || 1100;
+      var content = doc.querySelector(".container, .main-container, #content, .wrapper, .content, .site-content");
+      var contentWidth = content ? contentElement.clientWidth : 1100;
+      var pageWidth = parent.innerWidth || window.innerWidth;
       var sideOffset = (pageWidth - contentWidth) / 2;
 
       if (leftImg) {
@@ -104,16 +105,17 @@
         left.href = clickUrl;
         left.target = "_blank";
         left.className = "skinad-side";
-        left.style.left = sideOffset - imgWidth + "px";
+        left.style.left = (sideOffset - imgWidth) + "px";
         left.innerHTML = `<img src="${leftImg}">`;
         doc.body.appendChild(left)
       }
+
       if (rightImg) {
         var right = doc.createElement("a");
         right.href = clickUrl;
         right.target = "_blank";
         right.className = "skinad-side";
-        right.style.right = sideOffset - imgWidth + "px";
+        right.style.right = (sideOffset - imgWidth) + "px";
         right.innerHTML = `<img src="${rightImg}">`;
         doc.body.appendChild(right);
       }

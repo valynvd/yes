@@ -9,7 +9,7 @@
   var kly = parent.kly || parent.kmklabs || {};
   var site = (kly.site || "").toLowerCase();
   var platform = (kly.platform || "").toLowerCase();
-
+ 
   function init(format, config) {
     config = config || {};
     var format = (format || "").toLowerCase();
@@ -80,13 +80,17 @@
       style.innerHTML = `
         .skinad-side {
         position: fixed;
-        top: 50%;
-        transform: translateY(-50%);
+        top: 0;
+        bottom: 0;
+        display: flex;
+        align-items: center;
         z-index: 9999;
       }
       .skinad-side img {
         max-width: ${imgWidth}px;
         display: block;
+        height: 100%;
+        object-fit: cover;
       }
       `; 
       doc.head.appendChild(style);

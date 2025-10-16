@@ -69,16 +69,16 @@
     try {
       if (platform !== "" && platform !== "desktop") return ;
 
+       var minWidth = config.minWidth || 1200;
+      var currentWidth = window.innerWidth || doc.documentElement.clientWidth;
+      if (currentWidth < minWidth) return;
+
       var leftImg = config.leftImage || "";
       var rightImg = config.rightImage || "";
       var clickUrl = config.clickUrl || config.landingPage || "#";
       var imgWidth = config.imageWidth || 300;
 
       if (!leftImg && !rightImg) return;
-
-      var skinAdWrapper = doc.createElement("div");
-      skinAdWrapper.className = "skinad-wrapper";
-      doc.body.appendChild(skinAdWrapper);
 
       var style = doc.createElement("style");
       style.innerHTML = `
@@ -95,9 +95,6 @@
         display: block;
         height: 100%;
         object-fit: cover;
-      }
-      @media (max-width: ${minWidth}px) {
-        .skinad-wrapper { display: none !important; }
       }
       `; 
       doc.head.appendChild(style);
@@ -124,12 +121,6 @@
         right.innerHTML = `<img src="${rightImg}">`;
         doc.body.appendChild(right);
       }
-
-      function toggleSkinAd() {
-        skinAdWrapper.style.display = window.innerWidth < minWidth ? "none" : "block";
-      }
-      toggleSkinAd();
-      window.addEventListener("resize", toggleSkinAd);
     } catch (e) {
       console.warn("[SkinAd ERROR]:", e);
     }

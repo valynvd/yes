@@ -9,6 +9,14 @@
   var kly = parent.kly || parent.kmklabs || {};
   var site = (kly.site || "").toLowerCase();
   var platform = (kly.platform || "").toLowerCase();
+
+  var newstagElement = {
+    kapanlagi: {
+      targetSelector: ".header25-trending__list",
+      itemSelector: "a.header25-trending__item",
+      titleSelector: ".header25-trending__item__title"
+    },
+  }
  
   function init(format, config) {
     config = config || {};
@@ -16,26 +24,27 @@
 
     switch (format) {
       case "newstag":
-        if (site === "kapanlagi") {
-          newstagKapanlagi(config)
+        if (newstagElement[site]) {
+          Newstag(config, newstagElement[site]);
+        } else {
+          console.warn("[Newstag] Unsupported site:", site);
         }
         break;
       case "skinad":
-        SkinAd(config);
+        SkinAd_Inject(config);
         break;
     }
   }
 
-  function newstagKapanlagi(config) {
+  function Newstag(config, elements) {
     try {
       var textTag = config.textTag || "Newstag";
       var landingPage = config.landingPage || "#";
       var position = Number.isInteger(config.position) ? config.position : 0;
-      var targetSelector = config.targetSelector || ".header25-trending__list";
       var count = 0;
 
       const interval = setInterval(function () {
-        var target = doc.querySelector(targetSelector);
+        var target = doc.querySelector(elements.targetSelector);
         if (!target) {
           if (++count > 100) clearInterval(interval);
           return;
@@ -46,7 +55,7 @@
           return;
         }
 
-        var tagItem = target.querySelectorAll("a.header25-trending__item")[position];
+        var tagItem = target.querySelectorAll(elements.itemSelector)[position];
         if (!tagItem) return;
 
         var tag = target.childNodes[position];
@@ -54,7 +63,7 @@
         tag.classList.add("tag-ads");
         tag.setAttribute("href", landingPage);
         tag.setAttribute("target", "_blank");
-        tag.querySelector(".header25-trending__item__title").textContent = textTag;
+        tag.querySelector(elements.titleSelector).textContent = textTag;
 
         tagItem.insertAdjacentElement("beforebegin", tag);
         clearInterval(interval);
@@ -65,7 +74,7 @@
     }
   }
 
-  function SkinAd(config) {
+  function SkinAd_Inject(config) {
     try {
       if (platform !== "" && platform !== "desktop") return ;
 

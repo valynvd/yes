@@ -18,7 +18,7 @@
     },
     liputan6: {
       targetSelector: ".trending--list",
-      itemSelector: ".trending--list__item",
+      itemSelector: ".trending__item",
       titleSelector: ".trending__item__title"
     },
   }
@@ -66,9 +66,15 @@
         var tag = target.childNodes[position];
         tag = tag.cloneNode(true);
         tag.classList.add("tag-ads");
-        tag.setAttribute("href", landingPage);
-        tag.setAttribute("target", "_blank");
-        tag.querySelector(elements.titleSelector).textContent = textTag;
+
+        var title = tag.querySelector(elements.titleSelector);
+        if (title) title.textContent = textTag;
+
+        var link = tag.querySelector(elements.linkSelector || "a");
+        if (link) {
+          link.setAttribute("href", landingPage);
+          link.setAttribute("target", "_blank");
+        }
 
         tagItem.insertAdjacentElement("beforebegin", tag);
         clearInterval(interval);

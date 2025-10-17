@@ -16,6 +16,11 @@
       itemSelector: "a.header25-trending__item",
       titleSelector: ".header25-trending__item__title"
     },
+    liputan6: {
+      targetSelector: ".trending--list",
+      itemSelector: "a.trending__item",
+      titleSelector: ".trending__item__title"
+    },
   }
  
   function init(format, config) {

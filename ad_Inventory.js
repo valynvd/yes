@@ -21,6 +21,21 @@
       itemSelector: ".trending--list__item",
       titleSelector: ".trending__item__title"
     },
+    fimela: {
+      mode: "replace",
+      desktop: {
+        targetSelector: ".tags--box",
+        itemSelector: ".tags--box--item",
+        titleSelector: ".tags--box--item__name",
+        linkSelector: ".tags--box--item__link"
+      },
+      mobile: {
+        targetSelector: ".selected-tags-homepage",
+        itemSelector: ".selected-tags-homepage--item",
+        titleSelector: "a",
+        linkSelector: "a"
+      }
+    },
   }
  
   function init(format, config) {
@@ -49,6 +64,26 @@
       var count = 0;
 
       const interval = setInterval(function () {
+        // REPLACE
+        if (elements.mode === "replace") {
+          var platformCheck = (platform === "mobile") ? elements.mobile : elements.desktop;
+          var target = doc.querySelector(platformCheck.targetSelector);
+          if (!target) return (count++ > 100 && clearInterval(interval));
+
+          var tagItem = target.querySelectorAll(platformCheck.itemSelector)[position];
+          if(!tagItem) return;
+
+          var link = tagItem.querySelector(platformCheck.linkSelector || "a");
+          if (link) {
+            link.textContent = textTag;
+            link.setAttribute("href", landingPage);
+            link.setAttribute("target", "_blank");
+          }
+          tagItem.classList.add("tag-ads");
+          clearInterval(interval);
+          return;
+        }
+
         var target = doc.querySelector(elements.targetSelector);
         if (!target) {
           if (++count > 100) clearInterval(interval);

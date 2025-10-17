@@ -30,9 +30,21 @@
         linkSelector: ".tags--box--item__link"
       },
       mobile: {
-        targetSelector: ".selected-tags-homepage",
+        targetSelector: ".selected-tags-homepage__list",
         itemSelector: ".selected-tags-homepage--item",
-        titleSelector: "selected-tags-homepage--item__link",
+        linkSelector: "selected-tags-homepage--item__link",
+      }
+    },
+    bolanet: {
+      mode: "replace",
+      desktop: {
+        targetSelector: ".box-tag-swiper .swiper-wraper",
+        itemSelector: ".swiper-sllide",
+        linkSelector: "a"
+      },
+      mobile: {
+        targetSelector: ".box-tag-swiper",
+        itemSelector: ".box-overflow-x-item",
         linkSelector: "a"
       }
     },

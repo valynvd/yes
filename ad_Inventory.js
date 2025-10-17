@@ -32,7 +32,7 @@
       mobile: {
         targetSelector: ".selected-tags-homepage",
         itemSelector: ".selected-tags-homepage--item",
-        titleSelector: "a",
+        titleSelector: "selected-tags-homepage--item__link",
         linkSelector: "a"
       }
     },

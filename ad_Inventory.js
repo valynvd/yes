@@ -32,7 +32,7 @@
       mobile: {
         targetSelector: ".selected-tags-homepage__list",
         itemSelector: ".selected-tags-homepage--item",
-        linkSelector: "selected-tags-homepage--item__link",
+        linkSelector: ".selected-tags-homepage--item__link",
       }
     },
     bolanet: {

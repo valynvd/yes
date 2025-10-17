@@ -18,7 +18,7 @@
     },
     liputan6: {
       targetSelector: ".trending--list",
-      itemSelector: ".trending__item",
+      itemSelector: ".trending--list__item",
       titleSelector: ".trending__item__title"
     },
   }

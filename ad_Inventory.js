@@ -31,8 +31,8 @@
       },
       mobile: {
         targetSelector: ".selected-tags-homepage__list",
-        itemSelector: "li.selected-tags-homepage--item",
-        linkSelector: "a.selected-tags-homepage--item__link",
+        itemSelector: ".selected-tags-homepage--item",
+        linkSelector: ".selected-tags-homepage--item__link"
       }
     },
     bolanet: {

@@ -63,8 +63,7 @@
         var tagItem = target.querySelectorAll(elements.itemSelector)[position];
         if (!tagItem) return;
 
-        var tag = target.childNodes[position];
-        tag = tag.cloneNode(true);
+        var tag = tagItem.cloneNode(true);
         tag.classList.add("tag-ads");
 
         var title = tag.querySelector(elements.titleSelector);

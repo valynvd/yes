@@ -39,7 +39,7 @@
     bolanet: {
       mode: "replace",
       desktop: {
-        targetSelector: ".box-tag-swiper .swiper-wrapper",
+        targetSelector: ".box-tag-swiper .swiper-container .swiper-wrapper",
         itemSelector: ".swiper-slide",
         linkSelector: "a"
       },

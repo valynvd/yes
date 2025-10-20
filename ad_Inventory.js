@@ -30,8 +30,8 @@
         linkSelector: ".tags--box--item__link"
       },
       mobile: {
-        targetSelector: ".selected-tags-homepage__list .selected-tags-homepage",
-        itemSelector: ".selected-tags-homepage--item",
+        targetSelector: ".selected-tags-homepage__list",
+        itemSelector: ".selected-tags-homepage--item:not(.wc-gateaway)",
         linkSelector: ".selected-tags-homepage--item__link"
       }
     },

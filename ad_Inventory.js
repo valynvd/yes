@@ -69,12 +69,7 @@
     }
   }
 
-  function getVisibleItems(nodeList) {
-    return Array.from(nodeList).filter(item => {
-      return item.style.display !== "none" && item.offsetParent !== null;
-    });
-  }
-
+  
   function Newstag(config, elements) {
     try {
       var textTag = config.textTag || "Newstag";
@@ -89,8 +84,7 @@
           var target = doc.querySelector(platformCheck.targetSelector);
           if (!target) return (count++ > 100 && clearInterval(interval));
 
-          var visibleItems = getVisibleItems(target.querySelectorAll(platformCheck.itemSelector));
-          var tagItem = visibleItems[position];
+          var tagItem = target.querySelectorAll(platformCheck.itemSelector)[position];
           if(!tagItem) return;
 
           var link = tagItem.querySelector(platformCheck.linkSelector || "a");

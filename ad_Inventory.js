@@ -31,7 +31,7 @@
       },
       mobile: {
         targetSelector: ".selected-tags-homepage__list",
-        itemSelector: ".selected-tags-homepage--item:not(.wc-gateway)",
+        itemSelector: ".selected-tags-homepage--item:not(.wc-gateway):not([style*='display: none'])",
         linkSelector: ".selected-tags-homepage--item__link"
       }
     },

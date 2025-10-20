@@ -31,7 +31,7 @@
       },
       mobile: {
         targetSelector: ".selected-tags-homepage__list",
-        itemSelector: ".selected-tags-homepage--item:not(.wc-gateway):not([style*='display: none'])",
+        itemSelector: ".selected-tags-homepage--item:not(.wc-gateway)",
         linkSelector: ".selected-tags-homepage--item__link"
       }
     },
@@ -78,11 +78,13 @@
       const interval = setInterval(function () {
         // REPLACE
         if (elements.mode === "replace") {
-          var platformCheck = (platform === "mobile" || platform === "mweb") ? elements.mobile : elements.desktop;
+          var platformCheck = (platform === "mobile") ? elements.mobile : elements.desktop;
           var target = doc.querySelector(platformCheck.targetSelector);
-          if (!target) return (count++ > 100 && clearInterval(interval));
+          if (!target) return (count++ > 200 && clearInterval(interval));
 
-          var tagItem = target.querySelectorAll(platformCheck.itemSelector)[position];
+          var items = target.querySelectorAll(platformCheck.itemSelector);
+          items = Array.from(items).filter(el => el.offsetParent !== null);
+          var tagItem = items[position];
           if(!tagItem) return;
 
           var link = tagItem.querySelector(platformCheck.linkSelector || "a");

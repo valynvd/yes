@@ -31,7 +31,7 @@
       },
       mobile: {
         targetSelector: ".selected-tags-homepage__list",
-        itemSelector: ".selected-tags-homepage--item:not(.wc-gateaway)",
+        itemSelector: ".selected-tags-homepage--item:not(.wc-gateway)",
         linkSelector: ".selected-tags-homepage--item__link"
       }
     },

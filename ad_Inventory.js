@@ -30,7 +30,7 @@
         linkSelector: ".tags--box--item__link"
       },
       mobile: {
-        targetSelector: ".selected-tags-homepage__list",
+        targetSelector: ".selected-tags-homepage__list .selected-tags-homepage",
         itemSelector: ".selected-tags-homepage--item",
         linkSelector: ".selected-tags-homepage--item__link"
       }
@@ -38,8 +38,8 @@
     bolanet: {
       mode: "replace",
       desktop: {
-        targetSelector: ".box-tag-swiper .swiper-wraper",
-        itemSelector: ".swiper-sllide",
+        targetSelector: ".box-tag-swiper .swiper-wrapper",
+        itemSelector: ".swiper-slide",
         linkSelector: "a"
       },
       mobile: {

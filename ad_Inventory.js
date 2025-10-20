@@ -1,7 +1,7 @@
 (function (root, factory) {
   if (typeof define == "function" && define.amd) define([], factory);
   else if (typeof module === "object" && module.exports)
-    module.exports = factory();
+      module.exports = factory();
   else root.adInventory = factory();
 })(this, function () {
 
@@ -39,7 +39,7 @@
     bolanet: {
       mode: "replace",
       desktop: {
-        targetSelector: ".box-tag-swiper .swiper-container .swiper-wrapper",
+        targetSelector: ".box-tag-swiper > .swiper-container > .swiper-wrapper",
         itemSelector: ".swiper-slide",
         linkSelector: "a"
       },
@@ -50,7 +50,7 @@
       }
     },
   }
-
+ 
   function init(format, config) {
     config = config || {};
     var format = (format || "").toLowerCase();
@@ -69,7 +69,7 @@
     }
   }
 
-
+  
   function Newstag(config, elements) {
     try {
       var textTag = config.textTag || "Newstag";
@@ -81,21 +81,11 @@
         // REPLACE
         if (elements.mode === "replace") {
           var platformCheck = (platform === "mobile") ? elements.mobile : elements.desktop;
-          var target;
-          if (site === "bolanet") {
-            var wrappers = doc.querySelectorAll(platformCheck.targetSelector);
-            wrappers.forEach(w => {
-              if (w.querySelectorAll(platformCheck.itemSelector).length > position) {
-                target = w;
-              }
-            });
-          } else {
-            target = doc.querySelector(platformCheck.targetSelector);
-          }
+          var target = doc.querySelector(platformCheck.targetSelector);
           if (!target) return (count++ > 100 && clearInterval(interval));
 
           var tagItem = target.querySelectorAll(platformCheck.itemSelector)[position];
-          if (!tagItem) return;
+          if(!tagItem) return;
 
           var link = tagItem.querySelector(platformCheck.linkSelector || "a");
           if (link) {
@@ -136,8 +126,8 @@
 
         tagItem.insertAdjacentElement("beforebegin", tag);
         clearInterval(interval);
-
-      }, 100)
+        
+      },100)
     } catch (e) {
       console.warn("[Newstag] Error:", e)
     }
@@ -145,7 +135,7 @@
 
   function SkinAd_Inject(config) {
     try {
-      if (platform !== "" && platform !== "desktop") return;
+      if (platform !== "" && platform !== "desktop") return ;
 
       var leftImg = config.leftImage || "";
       var rightImg = config.rightImage || "";
@@ -170,7 +160,7 @@
         height: 100%;
         object-fit: cover;
       }
-      `;
+      `; 
       doc.head.appendChild(style);
 
       var pageWidth = doc.documentElement.clientWidth;

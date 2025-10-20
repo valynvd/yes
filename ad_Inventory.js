@@ -31,7 +31,8 @@
       },
       mobile: {
         targetSelector: ".selected-tags-homepage__list",
-        itemSelector: ".selected-tags-homepage--item:not(.wc-gateway)",
+        itemSelector: ".selected-tags-homepage--item",
+        titleSelector: ".selected-tags-homepage--item__link",
         linkSelector: ".selected-tags-homepage--item__link"
       }
     },
@@ -68,6 +69,12 @@
     }
   }
 
+  function getVisibleItems(nodeList) {
+    return Array.from(nodeList).filter(item => {
+      return item.style.display !== "none" && item.offsetParent !== null;
+    });
+  }
+
   function Newstag(config, elements) {
     try {
       var textTag = config.textTag || "Newstag";
@@ -80,11 +87,10 @@
         if (elements.mode === "replace") {
           var platformCheck = (platform === "mobile") ? elements.mobile : elements.desktop;
           var target = doc.querySelector(platformCheck.targetSelector);
-          if (!target) return (count++ > 200 && clearInterval(interval));
+          if (!target) return (count++ > 100 && clearInterval(interval));
 
-          var items = target.querySelectorAll(platformCheck.itemSelector);
-          items = Array.from(items).filter(el => el.offsetParent !== null);
-          var tagItem = items[position];
+          var visibleItems = getVisibleItems(target.querySelectorAll(platformCheck.itemSelector));
+          var tagItem = visibleItems[position];
           if(!tagItem) return;
 
           var link = tagItem.querySelector(platformCheck.linkSelector || "a");

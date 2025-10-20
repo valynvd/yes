@@ -81,8 +81,13 @@
           var platformCheck = (platform === "mobile") ? elements.mobile : elements.desktop;
           var target = doc.querySelector(platformCheck.targetSelector);
           if (!target) return (count++ > 100 && clearInterval(interval));
-
-          var tagItem = target.querySelectorAll(platformCheck.itemSelector)[position];
+          
+          var items = target.querySelectorAll(platformCheck.itemSelector);
+          items = Array.from(items).filter(function(el) {
+            return el.offsetParent !== null;
+          });
+          
+          var tagItem = items[position];
           if(!tagItem) return;
 
           var link = tagItem.querySelector(platformCheck.linkSelector || "a");

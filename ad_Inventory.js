@@ -1,7 +1,7 @@
 (function (root, factory) {
   if (typeof define == "function" && define.amd) define([], factory);
   else if (typeof module === "object" && module.exports)
-      module.exports = factory();
+    module.exports = factory();
   else root.adInventory = factory();
 })(this, function () {
 
@@ -50,7 +50,7 @@
       }
     },
   }
- 
+
   function init(format, config) {
     config = config || {};
     var format = (format || "").toLowerCase();
@@ -69,7 +69,7 @@
     }
   }
 
-  
+
   function Newstag(config, elements) {
     try {
       var textTag = config.textTag || "Newstag";
@@ -78,30 +78,39 @@
       var count = 0;
 
       var platformCheck = elements.mode ? ((platform === "mobile") ? elements.mobile : elements.desktop) : elements;
-      
+
       const interval = setInterval(function () {
         // SWIPER
         if (elements.mode === "swiper") {
-          var gam_wrapper = doc.querySelector(platformCheck.targetSelector);
-          if (!gam_wrapper) return (count++ > 100 && clearInterval(interval));
-
-          var refItem = gam_wrapper.children[position];
-          if (!refItem) return;
-
-          var newItem = doc.createElement("div");
-          newItem.className = platformCheck.itemSelector.replace(".", "");
-          newItem.innerHTML = `
-            <a href="${landingPage}" title="${textTag}" target="_blank">${textTag}</a>
-          `;
-
-          gam_wrapper.insertBefore(newItem, refItem);
-
-          if (platform !== "mobile") {
-            gam_wrapper.closest(".swiper-container")?.swiper?.update();
-          }
           clearInterval(interval);
+
+          var delay = config.delay || 2000;
+          setTimeout(function () {
+            var retry = 0;
+            var swiperCheck = setInterval(function () {
+              var gam_wrapper = doc.querySelector(platformCheck.targetSelector);
+              if (!gam_wrapper) return (retry++ > 100 && clearInterval(swiperCheck));
+
+              var refItem = gam_wrapper.children[position];
+              if (!refItem) return;
+
+              var newItem = doc.createElement("div");
+              newItem.className = platformCheck.itemSelector.replace(".", "");
+              newItem.innerHTML = `
+                <a href="${landingPage}" title="${textTag}" target="_blank">${textTag}</a>
+              `;
+
+              gam_wrapper.insertBefore(newItem, refItem);
+
+              if (platform !== "mobile") {
+                gam_wrapper.closest(".swiper-container")?.swiper?.update();
+              }
+              clearInterval(swiperCheck);
+            }, 100);
+          }, delay);
+
           return;
-        };
+        }
 
         // REPLACE
         if (elements.mode === "replace") {
@@ -109,7 +118,7 @@
           if (!target) return (count++ > 100 && clearInterval(interval));
 
           var tagItem = target.querySelectorAll(platformCheck.itemSelector)[position];
-          if(!tagItem) return;
+          if (!tagItem) return;
 
           var link = tagItem.querySelector(platformCheck.linkSelector || "a");
           if (link) {
@@ -151,8 +160,8 @@
 
         tagItem.insertAdjacentElement("beforebegin", tag);
         clearInterval(interval);
-        
-      },100)
+
+      }, 100)
     } catch (e) {
       console.warn("[Newstag] Error:", e)
     }
@@ -160,7 +169,7 @@
 
   function SkinAd_Inject(config) {
     try {
-      if (platform !== "" && platform !== "desktop") return ;
+      if (platform !== "" && platform !== "desktop") return;
 
       var leftImg = config.leftImage || "";
       var rightImg = config.rightImage || "";
@@ -185,7 +194,7 @@
         height: 100%;
         object-fit: cover;
       }
-      `; 
+      `;
       doc.head.appendChild(style);
 
       var pageWidth = doc.documentElement.clientWidth;

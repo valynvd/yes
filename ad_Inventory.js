@@ -37,9 +37,9 @@
       }
     },
     bolanet: {
-      mode: "replace",
+      mode: "swiper",
       desktop: {
-        targetSelector: ".box-tag-swiper > .swiper-container > .swiper-wrapper",
+        targetSelector: ".box-tag-swiper .swiper-wrapper",
         itemSelector: ".swiper-slide",
         linkSelector: "a"
       },
@@ -77,10 +77,34 @@
       var position = Number.isInteger(config.position) ? config.position : 0;
       var count = 0;
 
+      var platformCheck = elements.mode ? ((platform === "mobile") ? elements.mobile : elements.desktop) : elements;
+      
       const interval = setInterval(function () {
+        // SWIPER
+        if (elements.mode === "swiper") {
+          var gam_wrapper = doc.querySelector(platformCheck.targetSelector);
+          if (!gam_wrapper) return (count++ > 100 && clearInterval(interval));
+
+          var refItem = gam_wrapper.children[position];
+          if (!refItem) return;
+
+          var newItem = document.createElement("div");
+          newItem.className = platformCheck.itemSelector.replace(".", "");
+          newItem.innerHTML = `
+            <a href="${landingPage}" title="${textTag}" target="_blank">${textTag}</a>
+          `;
+
+          gam_wrapper.insertBefore(newItem, refItem);
+
+          if (platform !== "mobile") {
+            gam_wrapper.closest(".swiper-container")?.swiper?.update();
+          }
+          clearInterval(interval);
+          return;
+        };
+
         // REPLACE
         if (elements.mode === "replace") {
-          var platformCheck = (platform === "mobile") ? elements.mobile : elements.desktop;
           var target = doc.querySelector(platformCheck.targetSelector);
           if (!target) return (count++ > 100 && clearInterval(interval));
 
@@ -98,6 +122,7 @@
           return;
         }
 
+        // CLONE
         var target = doc.querySelector(elements.targetSelector);
         if (!target) {
           if (++count > 100) clearInterval(interval);

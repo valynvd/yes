@@ -83,7 +83,12 @@
         // SWIPER
         if (elements.mode === "swiper") {
           var gam_wrapper = doc.querySelector(platformCheck.targetSelector);
-          if (!gam_wrapper) return (count++ > 100 && clearInterval(interval));
+          var swiper_container = gam_wrapper?.closest(".swiper-container");
+
+          if (!gam_wrapper || !swiper_container || !swiper_container.classList.contains("swiper-initialized")) {
+            if (++count > 200) clearInterval(interval); // 20 detik timeout
+            return;
+          }
 
           var refItem = gam_wrapper.children[position];
           if (!refItem) return;
@@ -98,7 +103,7 @@
 
           setTimeout(() => {
             gam_wrapper.closest(".swiper-container")?.swiper?.update();
-          }, 100);
+          }, 300);
           clearInterval(interval);
           return;
         };

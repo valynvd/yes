@@ -37,6 +37,19 @@
       }
     },
     bolanet: {
+      desktop: {
+        targetSelector: ".tags--box",
+        itemSelector: ".tags--box--item",
+        titleSelector: ".tags--box--item__name",
+        linkSelector: ".tags--box--item__link"
+      },
+      // mobile: {
+      //   targetSelector: ".box-tag-swiper",
+      //   itemSelector: ".box-overflow-x-item",
+      //   linkSelector: "a"
+      // }
+    },
+    bolacom: {
       mode: "swiper",
       desktop: {
         targetSelector: ".box-tag-swiper .swiper-wrapper",
@@ -78,62 +91,33 @@
       var count = 0;
 
       var platformCheck = elements.mode ? ((platform === "mobile") ? elements.mobile : elements.desktop) : elements;
-      console.log('[Newstag] Platform Check:', platformCheck);
 
       const interval = setInterval(function () {
         // SWIPER
         if (elements.mode === "swiper") {
-          var gam_wrapper = doc.querySelector(platformCheck.targetSelector);
-          console.log('[Newstag] Swiper wrapper found:', gam_wrapper);
-
-          if (!gam_wrapper) {
-            if (++count > 50) {
-              console.warn('[Newstag] Swiper wrapper not found after 50 attempts');
-              clearInterval(interval);
-            }
-            return;
-          }
-
-          // Clear interval once we found the wrapper
           clearInterval(interval);
 
           var delay = config.delay || 2000;
           setTimeout(function () {
-            var swiperRetry = 0;
+            var retry = 0;
             var swiperCheck = setInterval(function () {
+              var gam_wrapper = doc.querySelector(platformCheck.targetSelector);
+              if (!gam_wrapper) return (retry++ > 100 && clearInterval(swiperCheck));
+
               var refItem = gam_wrapper.children[position];
-              console.log('[Newstag] Reference item:', refItem);
+              if (!refItem) return;
 
-              if (!refItem) {
-                if (++swiperRetry > 50) {
-                  console.warn('[Newstag] Reference item not found');
-                  clearInterval(swiperCheck);
-                }
-                return;
-              }
-
-              // Create new item
               var newItem = doc.createElement("div");
               newItem.className = platformCheck.itemSelector.replace(".", "");
               newItem.innerHTML = `
-              <a href="${landingPage}" title="${textTag}" target="_blank" style="display: block; padding: 8px 12px; background: #f0f0f0; border-radius: 4px; text-decoration: none; color: #333;">
-                ${textTag}
-              </a>
-            `;
+                <a href="${landingPage}" title="${textTag}" target="_blank">${textTag}</a>
+              `;
 
-              // Insert the new item
               gam_wrapper.insertBefore(newItem, refItem);
-              console.log('[Newstag] New item inserted:', newItem);
 
-              // Update swiper if exists
               if (platform !== "mobile") {
-                var swiperContainer = gam_wrapper.closest(".swiper-container");
-                if (swiperContainer && swiperContainer.swiper) {
-                  swiperContainer.swiper.update();
-                  console.log('[Newstag] Swiper updated');
-                }
+                gam_wrapper.closest(".swiper-container")?.swiper?.update();
               }
-
               clearInterval(swiperCheck);
             }, 100);
           }, delay);

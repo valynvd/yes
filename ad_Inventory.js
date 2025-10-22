@@ -38,7 +38,7 @@
     },
     bolacom: {
       desktop: {
-        targetSelector: ".tags--box",
+        targetSelector: ".tags--box--list",
         itemSelector: ".tags--box--item",
         titleSelector: ".tags--box--item__name",
         linkSelector: ".tags--box--item__link"

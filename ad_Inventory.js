@@ -84,13 +84,16 @@
         if (elements.mode === "swiper") {
           clearInterval(interval);
 
-          var delay = config.delay || 2000;
+          var delay = config.delay || (platform === "mobile" ? 5000 : 3000);
           setTimeout(function () {
             var retry = 0;
             var swiperCheck = setInterval(function () {
               var gam_wrapper = doc.querySelector(platformCheck.targetSelector);
-              if (!gam_wrapper) return (retry++ > 100 && clearInterval(swiperCheck));
-
+              if (!gam_wrapper) {
+                console.log("[Newstag] waiting for target:", platformCheck.targetSelector);
+                return (retry++ > 100 && clearInterval(swiperCheck));
+              }
+              
               var refItem = gam_wrapper.children[position];
               if (!refItem) return;
 

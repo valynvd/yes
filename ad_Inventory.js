@@ -49,7 +49,7 @@
       //   linkSelector: "a"
       // }
     },
-    bolacom: {
+    bolanet: {
       mode: "swiper",
       desktop: {
         targetSelector: ".box-tag-swiper .swiper-wrapper",

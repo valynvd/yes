@@ -36,7 +36,7 @@
         linkSelector: ".selected-tags-homepage--item__link"
       }
     },
-    bolanet: {
+    bolacom: {
       desktop: {
         targetSelector: ".tags--box",
         itemSelector: ".tags--box--item",

@@ -49,7 +49,7 @@
       //   linkSelector: "a"
       // }
     },
-    bolanet: {
+    bola: {
       mode: "swiper",
       desktop: {
         targetSelector: ".box-tag-swiper .swiper-wrapper",
@@ -95,34 +95,29 @@
       const interval = setInterval(function () {
         // SWIPER
         if (elements.mode === "swiper") {
+          var gam_wrapper = doc.querySelector(platformCheck.targetSelector);
+          if (!gam_wrapper) return (count++ > 100 && clearInterval(interval));
+
+          if (gam_wrapper.querySelector(".tag-ads")) {
+            clearInterval(interval);
+            return;
+          }
+
+          var refItem = gam_wrapper.children[position];
+          if (!refItem) return;
+
+          var newItem = doc.createElement("div");
+          newItem.className = platformCheck.itemSelector.replace(".", "") + " tag-ads";
+          newItem.innerHTML = `
+            <a href="${landingPage}" title="${textTag}" target="_blank">${textTag}</a>
+          `;
+
+          gam_wrapper.insertBefore(newItem, refItem);
+
+          if (platform !== "mobile") {
+            gam_wrapper.closest(".swiper-container")?.swiper?.update();
+          }
           clearInterval(interval);
-
-          var delay = config.delay || 2000;
-          setTimeout(function () {
-            var retry = 0;
-            var swiperCheck = setInterval(function () {
-              var gam_wrapper = doc.querySelector(platformCheck.targetSelector);
-              console.log("[Newstag][swiper] Target:", platformCheck.targetSelector);
-              if (!gam_wrapper) return (retry++ > 100 && clearInterval(swiperCheck));
-
-              var refItem = gam_wrapper.children[position];
-              if (!refItem) return;
-
-              var newItem = doc.createElement("div");
-              newItem.className = platformCheck.itemSelector.replace(".", "");
-              newItem.innerHTML = `
-                <a href="${landingPage}" title="${textTag}" target="_blank">${textTag}</a>
-              `;
-
-              gam_wrapper.insertBefore(newItem, refItem);
-
-              if (platform !== "mobile") {
-                gam_wrapper.closest(".swiper-container")?.swiper?.update();
-              }
-              clearInterval(swiperCheck);
-            }, 100);
-          }, delay);
-
           return;
         }
 

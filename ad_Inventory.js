@@ -38,7 +38,7 @@
     },
     bolacom: {
       desktop: {
-        targetSelector: ".tags--box--list",
+        targetSelector: ".cycle-carousel-wrap",
         itemSelector: ".tags--box--item",
         titleSelector: ".tags--box--item__name",
         linkSelector: ".tags--box--item__link"

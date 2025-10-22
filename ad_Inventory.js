@@ -102,6 +102,7 @@
             var retry = 0;
             var swiperCheck = setInterval(function () {
               var gam_wrapper = doc.querySelector(platformCheck.targetSelector);
+              console.log("[Newstag][swiper] Target:", platformCheck.targetSelector);
               if (!gam_wrapper) return (retry++ > 100 && clearInterval(swiperCheck));
 
               var refItem = gam_wrapper.children[position];

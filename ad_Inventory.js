@@ -150,10 +150,11 @@
     if (site === "bolacom") {
       const wrap = doc.querySelector(".cycle-carousel-wrap");
       if (!wrap) return;
-      if (wrap.querySelector(".tag-ads")) return clearInterval(interval);
 
       const items = [...wrap.querySelectorAll(".tags--box--item.cycle-slide")];
       if (!items.length) return;
+
+      if (items.some(i => i.textContent.trim() === textTag)) return clearInterval(interval);
 
       const active = wrap.querySelector(".cycle-slide-active");
       if (!active) return;

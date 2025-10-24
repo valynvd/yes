@@ -7,6 +7,7 @@
   var doc = parent.document || document;
   var kly = parent.kly || parent.kmklabs || {};
   var site = (kly.site || "").toLowerCase();
+  if (site === "bola.com") site = "bolacom";
   var platform = (kly.platform || "").toLowerCase();
 
   var newstagElement = {
@@ -49,7 +50,15 @@
         itemSelector: ".box-overflow-x-item",
         linkSelector: "a"
       }
-    }
+    },
+    bolacom: {
+      desktop: {
+        mode: "clone",
+        targetSelector: ".tags--box--list",
+        itemSelector: ".tags--box--item",
+        linkSelector: ".tags--box--item__link"
+      },
+    },
   };
 
   function init(format, config) {
@@ -72,7 +81,6 @@
       var position = Number.isInteger(config.position) ? config.position : 0;
       var count = 0;
 
-      // tentukan platform
       var platformCheck = elements.mode
         ? elements
         : platform === "mobile"
@@ -98,7 +106,6 @@
       console.warn("[Newstag Error]:", e);
     }
   }
-
 
   // SWIPER
   function handleSwiper(cfg, textTag, landingPage, position, interval) {

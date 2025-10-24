@@ -8,9 +8,9 @@
   var doc = parent.document || document;
   var kly = parent.kly || parent.kmklabs || {};
   var site = (kly.site || "").toLowerCase();
+  if(site === "bola.com") site = "bolacom";
   var platform = (kly.platform || "").toLowerCase();
 
-  if(site === "bola.com") site = "bolacom";
 
   var newstagElement = {
     kapanlagi: {

@@ -100,7 +100,7 @@
             handleClone(platformCheck, textTag, landingPage, position, interval);
             break;
         }
-        if (++count > 100) clearInterval(interval);
+        if (++count > 300) clearInterval(interval);
       }, 100);
     } catch (e) {
       console.warn("[Newstag Error]:", e);

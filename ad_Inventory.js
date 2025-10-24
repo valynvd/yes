@@ -149,15 +149,13 @@
   function handleClone(cfg, textTag, landingPage, position, interval) {
     if (site === "bolacom") {
       const wrap = doc.querySelector(".cycle-carousel-wrap");
-      if (!wrap) return;
+      if (!wrap) return false;
 
       const items = [...wrap.querySelectorAll(".tags--box--item.cycle-slide")];
-      if (!items.length) return;
-
-      if (items.some(i => i.textContent.trim() === textTag)) return clearInterval(interval);
+      if (!items.length || items.some(i => i.textContent.trim() === textTag)) return true;
 
       const active = wrap.querySelector(".cycle-slide-active");
-      if (!active) return;
+      if (!active) return false;
 
       const li = doc.createElement("li");
       li.className = "tags--box--item cycle-slide tag-ads";
@@ -169,8 +167,12 @@
       </a>`;
 
       const index = Math.min(items.indexOf(active) + position, items.length);
-      wrap.insertBefore(li, items[index] || null);
-      clearInterval(interval);
+      setTimeout(() => {
+        wrap.insertBefore(li, items[index] || null);
+        console.log("[Newstag] Injected:", textTag);
+      }, 50);
+
+      setTimeout(() => clearInterval(interval), 150);
       return;
     }
 

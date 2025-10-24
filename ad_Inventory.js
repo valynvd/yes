@@ -84,8 +84,8 @@
       var platformCheck = elements.mode
         ? elements
         : platform === "mobile"
-        ? elements.mobile
-        : elements.desktop;
+          ? elements.mobile
+          : elements.desktop;
 
       const interval = setInterval(() => {
         switch (platformCheck.mode) {
@@ -147,6 +147,32 @@
 
   // CLONE 
   function handleClone(cfg, textTag, landingPage, position, interval) {
+    if (site === "bolacom") {
+      const wrap = doc.querySelector(".cycle-carousel-wrap");
+      if (!wrap) return;
+      if (wrap.querySelector(".tag-ads")) return clearInterval(interval);
+
+      const items = [...wrap.querySelectorAll(".tags--box--item.cycle-slide")];
+      if (!items.length) return;
+
+      const active = wrap.querySelector(".cycle-slide-active");
+      if (!active) return;
+
+      const li = doc.createElement("li");
+      li.className = "tags--box--item cycle-slide tag-ads";
+      li.innerHTML = `
+      <a href="${landingPage}" class="tags--box--item__link" title="${textTag}" target="_blank">
+        <span class="tags--box--item__name">${textTag}</span>
+        <i class="tags--box--item__topic-icon i-checklist"></i>
+        <i class="tags--box--item__topic-icon-green i-checklist-green"></i>
+      </a>`;
+
+      const index = Math.min(items.indexOf(active) + position, items.length);
+      wrap.insertBefore(li, items[index] || null);
+      clearInterval(interval);
+      return;
+    }
+
     var target = doc.querySelector(cfg.targetSelector);
     if (!target) return;
 
@@ -169,6 +195,7 @@
     clearInterval(interval);
   }
 
+  // SKINAD
   function SkinAd_Inject(config) {
     try {
       if (platform && platform !== "desktop") return;

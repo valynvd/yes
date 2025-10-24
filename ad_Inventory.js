@@ -68,7 +68,7 @@
     if (format === "newstag" && newstagElement[site]) {
       Newstag(config, newstagElement[site]);
     } else if (format === "skinad") {
-      SkinAd_Inject(config);
+      SkinAd(config);
     } else {
       console.warn("[adInventory] Unsupported site or format:", site, format);
     }
@@ -196,7 +196,7 @@
   }
 
   // SKINAD
-  function SkinAd_Inject(config) {
+  function SkinAd(config) {
     try {
       if (platform && platform !== "desktop") return;
 

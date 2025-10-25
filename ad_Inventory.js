@@ -74,7 +74,7 @@
         }
         break;
       case "skinad":
-        SkinAd_Inject(config);
+        SkinAd(config);
         break;
     }
   }
@@ -161,7 +161,7 @@
           return;
         }
 
-        // CLONE DEFAULT
+        // CLONE
         var target = doc.querySelector(elements.targetSelector);
         if (!target) {
           if (++count > 100) clearInterval(interval);
@@ -197,7 +197,7 @@
     }
   }
 
-  function SkinAd_Inject(config) {
+  function SkinAd(config) {
     try {
       if (platform !== "" && platform !== "desktop") return;
 

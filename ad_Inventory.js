@@ -8,8 +8,9 @@
   var doc = parent.document || document;
   var kly = parent.kly || parent.kmklabs || {};
   var site = (kly.site || "").toLowerCase();
-  if (site === "bola.com") site = "bolacom";
+  if(site === "bola.com") site = "bolacom";
   var platform = (kly.platform || "").toLowerCase();
+
 
   var newstagElement = {
     kapanlagi: {
@@ -86,37 +87,21 @@
       const platformCheck = elements.mode ? (platform === "mobile" ? elements.mobile : elements.desktop) : elements;
 
       const interval = setInterval(() => {
+        const wrap = doc.querySelector(platformCheck.target);
+        if (!wrap) return (++count > 100 && clearInterval(interval));
+
         if (site === "bolacom") {
-          let wrap = doc.querySelector(".cycle-carousel-wrap") || doc.querySelector(".tags--box");
-          if (!wrap) return (++count > 300 && clearInterval(interval));
-
-          if (config.debugPreview) {
-            if (!wrap.querySelector(".tag-ads")) {
-              const li = doc.createElement("li");
-              li.className = "tags--box--item tag-ads";
-              li.innerHTML = `<a href="${landingPage}" class="tags--box--item__link" title="${textTag}" target="_blank">
-                <span class="tags--box--item__name">${textTag}</span>
-              </a>`;
-              wrap.prepend(li);
-            }
-            return clearInterval(interval);
-          }
-
           const items = [...wrap.querySelectorAll(".tags--box--item.cycle-slide")];
           if (!items.length || items.some(i => i.textContent.trim() === textTag)) return;
           const active = wrap.querySelector(".cycle-slide-active");
           if (!active) return;
           const li = doc.createElement("li");
           li.className = "tags--box--item cycle-slide tag-ads";
-          li.innerHTML = `<a href="${landingPage}" class="tags--box--item__link" title="${textTag}" target="_blank">
-            <span class="tags--box--item__name">${textTag}</span>
-            <i class="tags--box--item__topic-icon i-checklist"></i>
-            <i class="tags--box--item__topic-icon-green i-checklist-green"></i>
-          </a>`;
+          li.innerHTML = `<a href="${landingPage}" class="tags--box--item__link" title="${textTag}" target="_blank"><span class="tags--box--item__name">${textTag}</span><i class="tags--box--item__topic-icon i-checklist"></i><i class="tags--box--item__topic-icon-green i-checklist-green"></i></a>`;
           wrap.insertBefore(li, items[Math.min(items.indexOf(active) + position, items.length)] || null);
           return clearInterval(interval);
         }
-        // SWIPER
+
         if (elements.mode === "swiper") {
           if (wrap.querySelector(".tag-ads")) return clearInterval(interval);
           const ref = wrap.children[position];
@@ -128,10 +113,9 @@
           if (platform !== "mobile") wrap.closest(".swiper-container")?.swiper?.update();
           return clearInterval(interval);
         }
-        // REPLACE
+
         if (elements.mode === "replace") {
-          const wrap = doc.querySelector(platformCheck.target);
-          const tagItem = wrap?.querySelectorAll(platformCheck.item)[position];
+          const tagItem = wrap.querySelectorAll(platformCheck.item)[position];
           if (!tagItem) return;
           const link = tagItem.querySelector(platformCheck.link || "a");
           if (link) { link.textContent = textTag; link.href = landingPage; link.target = "_blank"; }
@@ -139,16 +123,13 @@
           return clearInterval(interval);
         }
 
-        // CLONE
-        const wrap = doc.querySelector(elements.targetSelector);
-        if (!wrap) return (++count > 300 && clearInterval(interval));
-        const tagItem = wrap.querySelectorAll(elements.itemSelector)[position];
+        const tagItem = wrap.querySelectorAll(elements.item)[position];
         if (!tagItem || wrap.querySelector(".tag-ads")) return;
         const tag = tagItem.cloneNode(true);
         tag.classList.add("tag-ads");
-        const title = tag.querySelector(elements.titleSelector);
+        const title = tag.querySelector(elements.title);
         if (title) title.textContent = textTag;
-        const link = tag.querySelector(elements.linkSelector || "a");
+        const link = tag.querySelector(elements.link || "a");
         if (link) { link.href = landingPage; link.target = "_blank"; }
         tagItem.insertAdjacentElement("beforebegin", tag);
         clearInterval(interval);

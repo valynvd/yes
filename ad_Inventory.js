@@ -64,7 +64,6 @@
   function init(format, config) {
     config = config || {};
     var format = (format || "").toLowerCase();
-
     switch (format) {
       case "newstag":
         if (newstagElement[site]) {
@@ -81,177 +80,93 @@
 
   function Newstag(config, elements) {
     try {
-      var textTag = config.textTag || "Newstag";
-      var landingPage = config.landingPage || "#";
-      var position = Number.isInteger(config.position) ? config.position : 0;
-      var count = 0;
+      const textTag = config.textTag || "Newstag";
+      const landingPage = config.landingPage || "#";
+      const position = Number.isInteger(config.position) ? config.position : 0;
+      let count = 0;
+      const platformCheck = elements.mode ? (platform === "mobile" ? elements.mobile : elements.desktop) : elements;
 
-      var platformCheck = elements.mode ? ((platform === "mobile") ? elements.mobile : elements.desktop) : elements;
+      const interval = setInterval(() => {
+        const wrap = doc.querySelector(platformCheck.targetSelector);
+        if (!wrap) return (++count > 100 && clearInterval(interval));
 
-      const interval = setInterval(function () {
-
-        // BOLACOM SPECIAL CLONE
-        if(site === "bolacom"){
-          const wrap = doc.querySelector(platformCheck.targetSelector);
-          if(!wrap) return (count++ > 100 && clearInterval(interval));
-
+        if (site === "bolacom") {
           const items = [...wrap.querySelectorAll(".tags--box--item.cycle-slide")];
-          if(!items.length || items.some(i => i.textContent.trim() === textTag)) return;
-
+          if (!items.length || items.some(i => i.textContent.trim() === textTag)) return;
           const active = wrap.querySelector(".cycle-slide-active");
-          if(!active) return;
-
+          if (!active) return;
           const li = doc.createElement("li");
           li.className = "tags--box--item cycle-slide tag-ads";
-          li.innerHTML = `
-            <a href="${landingPage}" class="tags--box--item__link" title="${textTag}" target="_blank">
-              <span class="tags--box--item__name">${textTag}</span>
-              <i class="tags--box--item__topic-icon i-checklist"></i>
-              <i class="tags--box--item__topic-icon-green i-checklist-green"></i>
-            </a>`;
-          const index = Math.min(items.indexOf(active) + position, items.length);
-          wrap.insertBefore(li, items[index] || null);
-
-          clearInterval(interval);
-          return;
+          li.innerHTML = `<a href="${landingPage}" class="tags--box--item__link" title="${textTag}" target="_blank"><span class="tags--box--item__name">${textTag}</span><i class="tags--box--item__topic-icon i-checklist"></i><i class="tags--box--item__topic-icon-green i-checklist-green"></i></a>`;
+          wrap.insertBefore(li, items[Math.min(items.indexOf(active) + position, items.length)] || null);
+          return clearInterval(interval);
         }
 
-        // SWIPER
         if (elements.mode === "swiper") {
-          var gam_wrapper = doc.querySelector(platformCheck.targetSelector);
-          if (!gam_wrapper) return (count++ > 100 && clearInterval(interval));
-
-          if (gam_wrapper.querySelector(".tag-ads")) {
-            clearInterval(interval);
-            return;
-          }
-
-          var refItem = gam_wrapper.children[position];
-          if (!refItem) return;
-
-          var newItem = doc.createElement("div");
-          newItem.className = platformCheck.itemSelector.replace(".", "") + " tag-ads";
-          newItem.innerHTML = `<a href="${landingPage}" title="${textTag}" target="_blank">${textTag}</a>`;
-
-          gam_wrapper.insertBefore(newItem, refItem);
-
-          if (platform !== "mobile") {
-            gam_wrapper.closest(".swiper-container")?.swiper?.update();
-          }
-          clearInterval(interval);
-          return;
+          if (wrap.querySelector(".tag-ads")) return clearInterval(interval);
+          const ref = wrap.children[position];
+          if (!ref) return;
+          const div = doc.createElement("div");
+          div.className = platformCheck.item.replace(".", "") + " tag-ads";
+          div.innerHTML = `<a href="${landingPage}" title="${textTag}" target="_blank">${textTag}</a>`;
+          wrap.insertBefore(div, ref);
+          if (platform !== "mobile") wrap.closest(".swiper-container")?.swiper?.update();
+          return clearInterval(interval);
         }
 
-        // REPLACE
         if (elements.mode === "replace") {
-          var target = doc.querySelector(platformCheck.targetSelector);
-          if (!target) return (count++ > 100 && clearInterval(interval));
-
-          var tagItem = target.querySelectorAll(platformCheck.itemSelector)[position];
+          const tagItem = wrap.querySelectorAll(platformCheck.item)[position];
           if (!tagItem) return;
-
-          var link = tagItem.querySelector(platformCheck.linkSelector || "a");
-          if (link) {
-            link.textContent = textTag;
-            link.setAttribute("href", landingPage);
-            link.setAttribute("target", "_blank");
-          }
+          const link = tagItem.querySelector(platformCheck.link || "a");
+          if (link) { link.textContent = textTag; link.href = landingPage; link.target = "_blank"; }
           tagItem.classList.add("tag-ads");
-          clearInterval(interval);
-          return;
+          return clearInterval(interval);
         }
 
-        // CLONE
-        var target = doc.querySelector(elements.targetSelector);
-        if (!target) {
-          if (++count > 100) clearInterval(interval);
-          return;
-        }
-
-        if (target.querySelector(".tag-ads")) {
-          clearInterval(interval);
-          return;
-        }
-
-        var tagItem = target.querySelectorAll(elements.itemSelector)[position];
-        if (!tagItem) return;
-
-        var tag = tagItem.cloneNode(true);
+        const tagItem = wrap.querySelectorAll(elements.item)[position];
+        if (!tagItem || wrap.querySelector(".tag-ads")) return;
+        const tag = tagItem.cloneNode(true);
         tag.classList.add("tag-ads");
-
-        var title = tag.querySelector(elements.titleSelector);
+        const title = tag.querySelector(elements.title);
         if (title) title.textContent = textTag;
-
-        var link = tag.querySelector(elements.linkSelector || "a");
-        if (link) {
-          link.setAttribute("href", landingPage);
-          link.setAttribute("target", "_blank");
-        }
-
+        const link = tag.querySelector(elements.link || "a");
+        if (link) { link.href = landingPage; link.target = "_blank"; }
         tagItem.insertAdjacentElement("beforebegin", tag);
         clearInterval(interval);
 
-      }, 100)
-    } catch (e) {
-      console.warn("[Newstag] Error:", e)
-    }
+      }, 100);
+    } catch (e) { console.warn("[Newstag] Error:", e); }
   }
 
   function SkinAd(config) {
     try {
-      if (platform !== "" && platform !== "desktop") return;
+      if (platform && platform !== "desktop") return;
+      const { leftImage, rightImage, landingPage = "#", imageWidth = 300 } = config;
+      if (!leftImage && !rightImage) return;
 
-      var leftImg = config.leftImage || "";
-      var rightImg = config.rightImage || "";
-      var clickUrl = config.clickUrl || config.landingPage || "#";
-      var imgWidth = config.imageWidth || 300;
-
-      if (!leftImg && !rightImg) return;
-
-      var style = doc.createElement("style");
-      style.innerHTML = `
-        .skinad-side {
-          position: fixed;
-          top: 0;
-          bottom: 0;
-          display: flex;
-          align-items: center;
-          z-index: 9999;
-        }
-        .skinad-side img {
-          max-width: ${imgWidth}px;
-          display: block;
-          height: 100%;
-          object-fit: cover;
-        }
+      const style = doc.createElement("style");
+      style.textContent = `
+        .skinad-side{position:fixed;top:0;bottom:0;display:flex;align-items:center;z-index:9999}
+        .skinad-side img{max-width:${imageWidth}px;display:block;height:100%;object-fit:cover}
       `;
       doc.head.appendChild(style);
 
-      var pageWidth = doc.documentElement.clientWidth;
-      var contentWidth = doc.querySelector(".container")?.clientWidth || 1000;
-      var sideOffset = (pageWidth - contentWidth) / 2;
+      const pageWidth = doc.documentElement.clientWidth;
+      const contentWidth = doc.querySelector(".container")?.clientWidth || 1000;
+      const offset = (pageWidth - contentWidth) / 2;
 
-      if (leftImg) {
-        var left = doc.createElement("a");
-        left.href = clickUrl;
-        left.target = "_blank";
-        left.className = "skinad-side";
-        left.style.left = sideOffset - imgWidth + "px";
-        left.innerHTML = `<img src="${leftImg}">`;
-        doc.body.appendChild(left)
+      if (leftImage) {
+        const left = doc.createElement("a");
+        left.href = landingPage; left.target = "_blank"; left.className = "skinad-side"; left.style.left = offset - imageWidth + "px";
+        left.innerHTML = `<img src="${leftImage}">`; doc.body.appendChild(left);
       }
-      if (rightImg) {
-        var right = doc.createElement("a");
-        right.href = clickUrl;
-        right.target = "_blank";
-        right.className = "skinad-side";
-        right.style.right = sideOffset - imgWidth + "px";
-        right.innerHTML = `<img src="${rightImg}">`;
-        doc.body.appendChild(right);
+      if (rightImage) {
+        const right = doc.createElement("a");
+        right.href = landingPage; right.target = "_blank"; right.className = "skinad-side"; right.style.right = offset - imageWidth + "px";
+        right.innerHTML = `<img src="${rightImage}">`; doc.body.appendChild(right);
       }
-    } catch (e) {
-      console.warn("[SkinAd ERROR]:", e);
-    }
+
+    } catch (e) { console.warn("[SkinAd] Error:", e); }
   }
 
   return { init };
